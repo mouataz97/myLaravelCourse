@@ -1,25 +1,42 @@
-<h1>Cars List</h1>
+@extends('layouts.app')
 
-<a href="/cars/create">Add New Car</a>
-<br><br>
+@section('content')
+<div class="container">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-@foreach($cars as $car)
-<p>
-Name: {{ $car->name }} |
-Brand: {{ $car->brand }} |
-Model: {{ $car->model }} |
-Price: {{ $car->price_per_day }} |
-Plate: {{ $car->plate_number }} |
-Status: {{ $car->status }}
+    <a href="{{ route('cars.create') }}" class="btn btn-primary mb-3">Add New Car</a>
 
-<!-- Edit button -->
-<a href="/cars/{{ $car->id }}/edit">Edit</a>
+    <table class="table table-bordered">
+        <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Price/Day</th>
+            <th>Plate</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        @foreach($cars as $car)
+        <tr>
+            <td>{{ $car->name }}</td>
+            <td>{{ $car->brand }}</td>
+            <td>{{ $car->model }}</td>
+            <td>{{ $car->price_per_day }}</td>
+            <td>{{ $car->plate_number }}</td>
+            <td>{{ $car->status }}</td>
+            <td>
+                <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-<!-- Delete form -->
-<form method="POST" action="/cars/{{ $car->id }}" style="display:inline;">
-    @csrf
-    @method('DELETE')
-    <button type="submit">Delete</button>
-</form>
-</p>
-@endforeach
+                <form action="{{ route('cars.destroy', $car->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</div>
+@endsection

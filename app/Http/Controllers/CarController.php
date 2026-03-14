@@ -18,46 +18,46 @@ class CarController extends Controller
         return view('cars.create');
     }
 
-    public function store(request $request)
+    public function store(Request $request)
     {
-        Car::create([
-    'name' => $request->name,
-    'brand' => $request->brand,
-    'model' => $request->model,
-    'price_per_day' => $request->price_per_day,
-    'plate_number' => $request->plate_number,
-    'status' => 'available'
-    ]);
+        // Validation
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'model' => 'required|string|max:255',
+            'price_per_day' => 'required|integer',
+            'plate_number' => 'required|string|max:255',
+        ]);
 
-        return redirect('/cars');
+        Car::create($request->all());
+
+        return redirect('/cars')->with('success', 'Car added successfully!');
     }
 
-    // Edit car form
     public function edit(Car $car)
     {
         return view('cars.edit', compact('car'));
     }
 
-    // Update car in database
     public function update(Request $request, Car $car)
     {
-        $car->update([
-            'name' => $request->name,
-            'brand' => $request->brand,
-            'model' => $request->model,
-            'price_per_day' => $request->price_per_day,
-            'plate_number' => $request->plate_number,
-            'status' => $request->status,
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'model' => 'required|string|max:255',
+            'price_per_day' => 'required|integer',
+            'plate_number' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
         ]);
 
-        return redirect('/cars');
+        $car->update($request->all());
+
+        return redirect('/cars')->with('success', 'Car updated successfully!');
     }
 
-    // Delete car
     public function destroy(Car $car)
     {
         $car->delete();
-        return redirect('/cars');
+        return redirect('/cars')->with('success', 'Car deleted successfully!');
     }
-
 }
