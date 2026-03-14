@@ -9,18 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-{
-    Schema::create('cars', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('brand');
-        $table->integer('price_per_day');
-        $table->string('plate_number');
-        $table->string('status')->default('available');
-        $table->timestamps();
-    });
-}
+   public function up(): void
+    {
+        Schema::create('cars', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('brand');
+            $table->string('model');
+            $table->integer('price_per_day');
+            $table->string('plate_number');
+            $table->string('status')->default('available');
+            $table->timestamps();
+        });
+    }
 
 
     /**

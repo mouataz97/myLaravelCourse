@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     protected $fillable = [
-        'name',
-        'brand',
-        'price_per_day',
-        'plate_number',
-        'status'
-    ];
+    'name',
+    'brand',
+    'model',
+    'price_per_day',
+    'plate_number',
+    'status'
+];
 //
 }
